@@ -9,7 +9,7 @@
     "name": "ranathedev"
   },
   "pricing": "Free",
-  "license": "https://github.com/ranathedev/smart-index-updater/blob/main/LICENSE",
+  "license": "MIT",
   "engines": {
     "vscode": "^1.91.0"
   },
