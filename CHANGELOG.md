@@ -1,9 +1,5 @@
 # Change Log
 
-All notable changes to the "smart-index-updater" extension will be documented in this file.
+## [1.0.0] - 2024-07-13
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
-## [Unreleased]
-
-- Initial release
+Initial release of the Smart Index Updater.

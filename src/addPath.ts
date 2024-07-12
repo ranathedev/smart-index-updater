@@ -38,7 +38,7 @@ export const addPath = async (uri?: any, configData?: any) => {
       }
 
       const watchPath = await vscode.window.showInputBox({
-        prompt: 'Enter the path watcher',
+        prompt: 'Enter the path to watch',
         placeHolder: 'e.g., src/lib/modules',
         value: relativePath,
       })
@@ -47,24 +47,22 @@ export const addPath = async (uri?: any, configData?: any) => {
       if (watchPath === '')
         return vscode.window.showErrorMessage('No watch path entered.')
 
-      const indexFile = await vscode.window.showInputBox({
-        prompt: 'Enter the index file path',
-        placeHolder: 'e.g., src/lib/modules/index.ts',
-        value: relativePath + '/index.ts',
+      let indexFileType = await vscode.window.showInputBox({
+        prompt: 'Enter the index file-type.',
+        placeHolder: 'e.g., js | ts | jsx | tsx',
       })
 
-      if (typeof indexFile === 'undefined') return
-      if (indexFile === '')
-        return vscode.window.showErrorMessage('Index file path not entered.')
+      if (typeof indexFileType === 'undefined') return
+      if (indexFileType === '') indexFileType = 'ts'
+      const indexFile = watchPath + 'index.' + indexFileType
 
-      const watchFileType = await vscode.window.showInputBox({
+      let watchFileType = await vscode.window.showInputBox({
         prompt: 'Enter the file-type to watch',
         placeHolder: 'e.g., js | ts | jsx | tsx | *',
       })
 
       if (typeof watchFileType === 'undefined') return
-      if (watchFileType === '')
-        return vscode.window.showErrorMessage('Watch file-type not entered.')
+      if (watchFileType === '') watchFileType = '*'
 
       const fullWatchPath = path.join(
         vscode.workspace.workspaceFolders[0].uri.fsPath,
@@ -87,7 +85,7 @@ export const addPath = async (uri?: any, configData?: any) => {
 
       let excludeFileTypes = []
       if (typeof excludeTypes === 'undefined') return
-      if (excludeTypes === '') excludeFileTypes = ['']
+      if (excludeTypes === '') excludeFileTypes = []
       excludeFileTypes = getExcludedFileTypes(excludeTypes)
 
       configFileTitle = await vscode.window.showInputBox({
@@ -105,10 +103,18 @@ export const addPath = async (uri?: any, configData?: any) => {
       vscode.workspace.workspaceFolders[0].uri.fsPath,
       '.vscode'
     )
-    const configFile = path.join(
-      vscodeDir,
-      configFileTitle + 'IndexConfig.json'
-    )
+
+    let configFile = path.join(vscodeDir, configFileTitle + 'IndexConfig.json')
+    let counter = 1
+
+    // Check if the file exists and increment the suffix if it does
+    while (fs.existsSync(configFile)) {
+      configFile = path.join(
+        vscodeDir,
+        `${configFileTitle}-${counter}IndexConfig.json`
+      )
+      counter++
+    }
 
     fs.writeFile(configFile, JSON.stringify(config), err => {
       if (err) {
