@@ -1,13 +1,30 @@
 {
   "name": "smart-index-updater",
-  "displayName": "smart-index-updater",
-  "description": "",
+  "displayName": "Smart Index Updater",
+  "description": "This VS Code extension enhances developer productivity by automating the management of index files within projects. The extension is particularly useful for maintaining consistency in large-scale projects where module or resource indexing is critical.",
   "version": "1.0.0",
+  "icon": "media/smart-index-updater-icon.png",
+  "publisher": "evonare",
+  "author": {
+    "name": "ranathedev"
+  },
+  "pricing": "Free",
+  "license": "https://github.com/ranathedev/smart-index-updater/blob/main/LICENSE",
   "engines": {
     "vscode": "^1.91.0"
   },
+  "bugs": {
+    "url": "https://github.com/ranathedev/smart-index-updater/issues",
+    "email": "meetranaintizar@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ranathedev/smart-index-updater.git"
+  },
+  "homepage": "https://github.com/ranathedev/smart-index-updater/blob/main/README.md",
   "categories": [
-    "Other"
+    "Other",
+    "Programming Languages"
   ],
   "activationEvents": [
     "onStartupFinished"
@@ -58,6 +75,19 @@
     "test": "vscode-test",
     "check-types": "tsc"
   },
+  "keywords": [
+    "Smart Index Updater",
+    "Automatic Index File Updater",
+    "Index File Management",
+    "File System Monitoring",
+    "VS Code Extension",
+    "Module Management",
+    "Codebase Automation",
+    "Index Configuration",
+    "Developer Productivity",
+    "Visual Studio Code Tool",
+    "File Watcher Extension"
+  ],
   "devDependencies": {
     "@types/mocha": "^10.0.6",
     "@types/node": "18.x",

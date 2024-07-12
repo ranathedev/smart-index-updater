@@ -1,71 +1,72 @@
-# Smart Index Updater README
+# Smart Index Updater
 
-This is the README for your extension "smart-index-updater". After writing up a brief description, we recommend including the following sections.
+## Overview
 
-## Features
+This VS Code extension enhances developer productivity by automating the management of index files within projects. It leverages `chokidar` for file system monitoring and dynamically updates index files based on changes to specified configuration files (`*IndexConfig.json`). The extension is particularly useful for maintaining consistency in large-scale projects where module or resource indexing is critical.
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+## Key Features
 
-For example if there is an image subfolder under your extension project workspace:
+- **Automatic Index Updating**: Monitors and updates index files (index.ts) when configuration files (`\*IndexConfig.json`) change.
+- **Flexible Configuration**: Supports multiple project-specific configurations for watching different types of files or directories.
+- **Enhanced Developer Workflow**: Reduces manual effort in maintaining `import/export` declarations, ensuring codebase integrity and efficiency.
+- **Status Bar Integration**: Provides visual feedback through the status bar, indicating the current state of file watching (`On/Off`).
 
-\!\[feature X\]\(images/feature-x.png\)
+## Use Cases
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+- **Large-scale Projects:** Facilitates seamless management of module imports across complex project structures.
+- **Resource Directories:** Automatically updates asset or resource indexing files based on changes.
+
+## Getting Started
+
+1. **Install the Extension**: Get it from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=evonare.smart-index-updater).
+2. **Configuration**: Define `*IndexConfig.json` files within your project's `.vscode` directory to specify watched paths and file types.
+3. **Enable Watcher**: The watcher is enabled automatically when the startup is finished. It can also be enabled manually from the command palette or the status bar item.
+4. **Add Path to Watch**: Open the command palette and select "Add Path to Watch" to specify a new directory path to monitor.
+5. **Create Index**: Open the command palette and select "Create Index". This command is also available in the context menu when right-clicking on a folder in the Explorer view.
+
+### Usage Notes
+
+- If no `watch file-type` is entered, the default value will be set to `*(any)`.
+- If no `config file-title` is entered, the default value will be set to `module`. If the file name already exists, it will be `module-(increment)`, such as `module-1IndexConfig.json`, `module-2IndexConfig.json`, etc.
+- If no `index file-type` is entered, the default value will be set to `ts`, such as `index.ts`.
+
+### Configuring Watch Paths
+
+**Configuration Files:** Create one or more configuration files (e.g., `modulesIndexConfig.json`, `imagesIndexConfig.json`) within the .vscode directory of your project to specify the directories and file types to watch.
+**Format:** Each configuration file should define the `watchPath`, `indexFile`, `watchFileType` and `excludeFileTypes`.
+
+#### Example
+
+`{"watchPath": "assets/modules",
+"indexFile": "assets/modules/index.ts",
+"watchFileType": "*",
+"excludeFileTypes": ["js"]}`
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+- Visual Studio Code version 1.91.0 or higher.
 
-## Extension Settings
+## Installation
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-- `myExtension.enable`: Enable/disable this extension.
-- `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
+1. Open Visual Studio Code.
+2. Go to the Extensions view (`Ctrl+Shift+X` or `Cmd+Shift+X` on macOS).
+3. Search for "Smart Index Updater"
+4. Click Install.
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
-
 ### 1.0.0
 
-Initial release of ...
+Initial release of the Smart Index Updater.
 
-### 1.0.1
+## License
 
-Fixed issue #.
+This extension is licensed under the [MIT License](https://github.com/ranathedev/smart-index-updater/blob/main/LICENSE).
 
-### 1.1.0
+## Author
 
-Added features X, Y, and Z.
+This extension was created by [Rana Intizar](https://proxar.ranaintizar.com/me/github).
 
----
+## Support
 
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-- [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-- Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-- Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-- Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-- [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-- [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+- [Email:](mailto:meetranaintizar@gmail.com) `meetranaintizar@gmail.com`

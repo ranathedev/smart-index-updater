@@ -20,6 +20,17 @@ export const createIndex = async (uri: any) => {
         // Get the path of the folder
         folderPath = uri.fsPath
       }
+    } else {
+      const watchPath = await vscode.window.showInputBox({
+        prompt: 'Enter the path to watch',
+        placeHolder: 'e.g., src/lib/modules',
+      })
+
+      if (typeof watchPath === 'undefined') return
+      if (watchPath === '')
+        return vscode.window.showErrorMessage('No watch path entered.')
+
+      folderPath = path.join(workspacePath, watchPath)
     }
 
     const watchPath = folderPath
@@ -47,9 +58,15 @@ export const createIndex = async (uri: any) => {
 
     fs.readdir(watchPath, (err, files) => {
       if (err) {
-        vscode.window.showErrorMessage(
-          `Error reading directory ${watchPath}: ${err.message}`
-        )
+        if (err.message.includes('no such file or directory'))
+          vscode.window.showErrorMessage(
+            `No such file or directory: ${watchPath}`
+          )
+        else
+          vscode.window.showErrorMessage(
+            `Error reading directory ${watchPath}: ${err.message}`
+          )
+
         console.error(`Error reading directory ${watchPath}:`, err)
         return
       }
@@ -60,18 +77,18 @@ export const createIndex = async (uri: any) => {
         indexFile,
         false
       )
-    })
 
-    // addPath to watcher
-    const relativePath = path.relative(workspacePath, folderPath)
-    const relativeIndexFilePath = path.relative(workspacePath, indexFile)
-    const configData = {
-      watchPath: relativePath,
-      indexFile: relativeIndexFilePath,
-      watchFileType: '*',
-      fileTitle: 'modules',
-      excludeFileTypes,
-    }
-    await addPath(null, configData)
+      // addPath to watcher
+      const relativePath = path.relative(workspacePath, folderPath)
+      const relativeIndexFilePath = path.relative(workspacePath, indexFile)
+      const configData = {
+        watchPath: relativePath,
+        indexFile: relativeIndexFilePath,
+        watchFileType: '*',
+        fileTitle: 'modules',
+        excludeFileTypes,
+      }
+      addPath(null, configData)
+    })
   } else return vscode.window.showErrorMessage('No workspace is open.')
 }
