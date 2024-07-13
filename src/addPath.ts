@@ -2,7 +2,7 @@ import * as vscode from 'vscode'
 import * as path from 'path'
 import * as fs from 'fs'
 
-import { watchedPaths, enableFileWatcher } from './watcher'
+import { watchedPaths } from './watcher'
 import { Config } from './types'
 import { getExcludedFileTypes } from './utils'
 
@@ -17,24 +17,14 @@ export const addPath = async (uri?: any, configData?: any) => {
     let workspacePath
     let relativePath = ''
 
-    if (configData) {
-      config = {
-        watchPath: configData.watchPath,
-        indexFile: configData.indexFile,
-        watchFileType: configData.watchFileType,
-        excludeFileTypes: configData.excludeFileTypes,
-      }
-      configFileTitle = configData.fileTitle
-    } else {
+    if (uri) {
       workspacePath = vscode.workspace.workspaceFolders[0].uri.fsPath
 
-      if (uri) {
-        // Check if the URI represents a folder
-        if (uri.scheme === 'file' && uri.fsPath) {
-          // Get the path of the folder
-          const folderPath = uri.fsPath
-          relativePath = path.relative(workspacePath, folderPath)
-        }
+      // Check if the URI represents a folder
+      if (uri.scheme === 'file' && uri.fsPath) {
+        // Get the path of the folder
+        const folderPath = uri.fsPath
+        relativePath = path.relative(workspacePath, folderPath)
       }
 
       const watchPath = await vscode.window.showInputBox({
@@ -54,7 +44,7 @@ export const addPath = async (uri?: any, configData?: any) => {
 
       if (typeof indexFileType === 'undefined') return
       if (indexFileType === '') indexFileType = 'ts'
-      const indexFile = watchPath + 'index.' + indexFileType
+      const indexFile = watchPath + '/index.' + indexFileType
 
       let watchFileType = await vscode.window.showInputBox({
         prompt: 'Enter the file-type to watch',
@@ -97,6 +87,14 @@ export const addPath = async (uri?: any, configData?: any) => {
       if (configFileTitle === '') configFileTitle = 'module'
 
       config = { watchPath, indexFile, watchFileType, excludeFileTypes }
+    } else {
+      config = {
+        watchPath: configData.watchPath,
+        indexFile: configData.indexFile,
+        watchFileType: configData.watchFileType,
+        excludeFileTypes: configData.excludeFileTypes,
+      }
+      configFileTitle = configData.fileTitle
     }
 
     const vscodeDir = path.join(
@@ -128,10 +126,7 @@ export const addPath = async (uri?: any, configData?: any) => {
     })
 
     vscode.window.showInformationMessage(
-      configData ? 'Index created.' : 'Path Added.'
+      !!uri ? 'Path Added.' : 'Index created.'
     )
-    enableFileWatcher()
-    vscode.window.showInformationMessage('File watcher updated.')
-    console.log('File watcher updated.')
   } else return vscode.window.showErrorMessage('No workspace is open.')
 }

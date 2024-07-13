@@ -86,7 +86,10 @@
     "Index Configuration",
     "Developer Productivity",
     "Visual Studio Code Tool",
-    "File Watcher Extension"
+    "File Watcher Extension",
+    "Create Index",
+    "Generate Index",
+    "Generate Index File"
   ],
   "devDependencies": {
     "@types/mocha": "^10.0.6",

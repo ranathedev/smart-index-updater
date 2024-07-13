@@ -40,7 +40,7 @@ This VS Code extension enhances developer productivity by automating the managem
 `{"watchPath": "assets/modules",
 "indexFile": "assets/modules/index.ts",
 "watchFileType": "*",
-"excludeFileTypes": ["js"]}`
+"excludeFileTypes": ["mjs"]}`
 
 ## Requirements
 
@@ -54,6 +54,10 @@ This VS Code extension enhances developer productivity by automating the managem
 4. Click Install.
 
 ## Release Notes
+
+### 1.0.1
+
+- Corrected an issue where the command `addPath` was not functioning as expected.
 
 ### 1.0.0
 
