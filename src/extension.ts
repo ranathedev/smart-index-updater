@@ -8,17 +8,11 @@ let statusBarItem: vscode.StatusBarItem
 
 export function activate(context: vscode.ExtensionContext) {
   // enable file watcher on load
-  enableFileWatcher()
-  vscode.window.showInformationMessage('File watcher enabled.')
-  console.log('File watcher enabled.')
+  enableFileWatcher('enabled')
 
   const enableWatcherCmd = vscode.commands.registerCommand(
     'smart-index-updater.enable',
-    () => {
-      enableFileWatcher()
-      vscode.window.showInformationMessage('File watcher enabled.')
-      console.log('File watcher enabled.')
-    }
+    () => enableFileWatcher('enabled')
   )
 
   const disableWatcherCmd = vscode.commands.registerCommand(
@@ -28,20 +22,14 @@ export function activate(context: vscode.ExtensionContext) {
 
   const addPathCmd = vscode.commands.registerCommand(
     `smart-index-updater.addPath`,
-    async uri => {
-      await addPath(uri)
-    }
+    addPath
   )
 
   const toggleWatcherCmd = vscode.commands.registerCommand(
     'smart-index-updater.toggleFileWatcher',
     () => {
       if (watchers.length > 0) disableFileWatcher()
-      else {
-        enableFileWatcher()
-        vscode.window.showInformationMessage('File watcher enabled.')
-        console.log('File watcher enabled.')
-      }
+      else enableFileWatcher('enabled')
     }
   )
 
@@ -50,6 +38,7 @@ export function activate(context: vscode.ExtensionContext) {
     100
   )
   statusBarItem.command = 'smart-index-updater.toggleFileWatcher'
+  statusBarItem.name = 'Smart Index Updater'
 
   const createIndexCmd = vscode.commands.registerCommand(
     `smart-index-updater.createIndex`,

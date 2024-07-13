@@ -9,39 +9,25 @@ import { updateStatusBarItem } from './extension'
 export let watchers: chokidar.FSWatcher[] = []
 export let watchedPaths: Set<string> = new Set()
 
-export const enableFileWatcher = () => {
+export const enableFileWatcher = (type: 'enabled' | 'updated') => {
   const workspaceFolders = vscode.workspace.workspaceFolders
   if (!workspaceFolders) return
 
   workspaceFolders.forEach(folder => {
     const vscodeDir = path.join(folder.uri.fsPath, '.vscode')
 
-    // add vscodeDir to watcher
+    // add config-files to watcher
     const fullWatchPath = path.join(vscodeDir, '*IndexConfig.json')
-    console.log('fullWatchPath', fullWatchPath)
 
     if (!watchedPaths.has(fullWatchPath)) {
       const watcher = chokidar.watch(fullWatchPath, {
-        // ignored: /(^|[\/\\])\../, // ignore dotfiles
         persistent: true,
       })
 
       watcher
-        .on('add', () => {
-          enableFileWatcher()
-          vscode.window.showInformationMessage('File watcher updated.')
-          console.log('Watcher updated.')
-        })
-        .on('change', () => {
-          enableFileWatcher()
-          vscode.window.showInformationMessage('File watcher updated.')
-          console.log('Watcher updated.')
-        })
-        .on('unlink', () => {
-          enableFileWatcher()
-          vscode.window.showInformationMessage('File watcher updated.')
-          console.log('Watcher updated.')
-        })
+        .on('add', () => enableFileWatcher('updated'))
+        .on('change', () => enableFileWatcher('updated'))
+        .on('unlink', () => enableFileWatcher('updated'))
 
       watchers.push(watcher)
       watchedPaths.add(fullWatchPath)
@@ -96,9 +82,13 @@ export const enableFileWatcher = () => {
         console.log(`Watch path already added: ${fullWatchPath}`)
 
         updateStatusBarItem()
+        updateIndexFile(config, folder.uri.fsPath)
       })
     })
   })
+
+  vscode.window.showInformationMessage(`File watcher ${type}.`)
+  console.log(`File watcher ${type}.`)
 }
 
 export const disableFileWatcher = () => {
