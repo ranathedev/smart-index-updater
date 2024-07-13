@@ -18,7 +18,7 @@ This VS Code extension enhances developer productivity by automating the managem
 
 ## Getting Started
 
-1. **Install the Extension**: Get it from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=evonare.smart-index-updater).
+1. **Install the Extension**: Get it from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=ranathedev.smart-index-updater).
 2. **Configuration**: Define `*IndexConfig.json` files within your project's `.vscode` directory to specify watched paths and file types.
 3. **Enable Watcher**: The watcher is enabled automatically when the startup is finished. It can also be enabled manually from the command palette or the status bar item.
 4. **Add Path to Watch**: Open the command palette and select "Add Path to Watch" to specify a new directory path to monitor.
