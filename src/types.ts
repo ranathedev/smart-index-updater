@@ -3,4 +3,5 @@ export type Config = {
   indexFile: string
   watchFileType: string
   excludeFileTypes: string[]
+  excludeDirectories: string[]
 }

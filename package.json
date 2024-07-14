@@ -2,7 +2,7 @@
   "name": "smart-index-updater",
   "displayName": "Smart Index Updater",
   "description": "This VS Code extension enhances developer productivity by automating the management of index files within projects. The extension is particularly useful for maintaining consistency in large-scale projects where module or resource indexing is critical.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "icon": "media/smart-index-updater-icon.png",
   "publisher": "ranathedev",
   "author": {

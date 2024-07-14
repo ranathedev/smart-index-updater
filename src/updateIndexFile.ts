@@ -12,6 +12,7 @@ export const updateIndexFile = (
 ) => {
   const watchPath = path.join(basePath, config.watchPath)
   const indexFile = path.join(basePath, config.indexFile)
+
   if (filePath !== indexFile) {
     fs.readdir(watchPath, (err, files) => {
       if (err) {
@@ -22,7 +23,7 @@ export const updateIndexFile = (
         return
       }
 
-      updateIndex(files, config, indexFile, true)
+      updateIndex(watchPath, files, config, indexFile, true)
     })
   }
 }

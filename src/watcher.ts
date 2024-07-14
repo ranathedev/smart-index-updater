@@ -16,6 +16,7 @@ export const enableFileWatcher = (type: 'enabled' | 'updated') => {
   workspaceFolders.forEach(folder => {
     const vscodeDir = path.join(folder.uri.fsPath, '.vscode')
 
+    if (!fs.existsSync(vscodeDir)) fs.mkdirSync(vscodeDir)
     // add config-files to watcher
     const fullWatchPath = path.join(vscodeDir, '*IndexConfig.json')
 
