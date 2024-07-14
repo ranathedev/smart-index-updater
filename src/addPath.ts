@@ -86,13 +86,20 @@ export const addPath = async (uri?: any, configData?: any) => {
       if (typeof configFileTitle === 'undefined') return
       if (configFileTitle === '') configFileTitle = 'module'
 
-      config = { watchPath, indexFile, watchFileType, excludeFileTypes }
+      config = {
+        watchPath,
+        indexFile,
+        watchFileType,
+        excludeFileTypes,
+        excludeDirectories: [],
+      }
     } else {
       config = {
         watchPath: configData.watchPath,
         indexFile: configData.indexFile,
         watchFileType: configData.watchFileType,
         excludeFileTypes: configData.excludeFileTypes,
+        excludeDirectories: [],
       }
       configFileTitle = configData.fileTitle
     }
@@ -119,7 +126,7 @@ export const addPath = async (uri?: any, configData?: any) => {
         vscode.window.showErrorMessage(
           `Error writing config file ${configFile}: ${err.message}`
         )
-        console.error(`Error writing index file ${config.indexFile}:`, err)
+        console.error(`Error writing config file ${configFile}:`, err)
         return
       }
       console.log('Config file added.')

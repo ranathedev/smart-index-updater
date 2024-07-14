@@ -1,10 +1,8 @@
 import * as vscode from 'vscode'
 import * as path from 'path'
-import * as fs from 'fs'
 
 import { getExcludedFileTypes } from './utils'
 import { addPath } from './addPath'
-import { updateIndex } from './updateIndex'
 
 export const createIndex = async (uri: any) => {
   if (
@@ -55,40 +53,16 @@ export const createIndex = async (uri: any) => {
     excludeFileTypes = getExcludedFileTypes(excludeTypes)
 
     const indexFile = path.join(watchPath, 'index.' + indexFileType)
+    const relativePath = path.relative(workspacePath, folderPath)
+    const relativeIndexFilePath = path.relative(workspacePath, indexFile)
+    const configData = {
+      watchPath: relativePath,
+      indexFile: relativeIndexFilePath,
+      watchFileType: '*',
+      fileTitle: 'modules',
+      excludeFileTypes,
+    }
 
-    fs.readdir(watchPath, (err, files) => {
-      if (err) {
-        if (err.message.includes('no such file or directory'))
-          vscode.window.showErrorMessage(
-            `No such file or directory: ${watchPath}`
-          )
-        else
-          vscode.window.showErrorMessage(
-            `Error reading directory ${watchPath}: ${err.message}`
-          )
-
-        console.error(`Error reading directory ${watchPath}:`, err)
-        return
-      }
-
-      updateIndex(
-        files,
-        { excludeFileTypes, watchFileType: '*' },
-        indexFile,
-        false
-      )
-
-      // addPath to watcher
-      const relativePath = path.relative(workspacePath, folderPath)
-      const relativeIndexFilePath = path.relative(workspacePath, indexFile)
-      const configData = {
-        watchPath: relativePath,
-        indexFile: relativeIndexFilePath,
-        watchFileType: '*',
-        fileTitle: 'modules',
-        excludeFileTypes,
-      }
-      addPath(null, configData)
-    })
+    addPath(null, configData)
   } else return vscode.window.showErrorMessage('No workspace is open.')
 }

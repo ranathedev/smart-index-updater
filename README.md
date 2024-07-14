@@ -55,9 +55,13 @@ This VS Code extension enhances developer productivity by automating the managem
 
 ## Release Notes
 
+### 1.0.2
+
+This release enhances the functionality of the index file updater by correctly managing directories and excluding specified ones, streamlining the process and ensuring accurate exports.
+
 ### 1.0.1
 
-- Corrected an issue where the command `addPath` was not functioning as expected.
+Corrected an issue where the command `addPath` was not functioning as expected.
 
 ### 1.0.0
 

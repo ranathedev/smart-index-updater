@@ -2,24 +2,30 @@ import * as vscode from 'vscode'
 import * as path from 'path'
 import * as fs from 'fs'
 
-import { getExtFromFilename, removeExtFromFilename } from './utils'
+import { getExtFromFilename, isDirectory, removeExtFromFilename } from './utils'
+import { Config } from './types'
 
 export const updateIndex = (
-  files: string[],
-  config: { excludeFileTypes: string[]; watchFileType: string },
+  watchPath: string,
+  items: string[],
+  config: Config,
   indexFile: string,
   checkValidTypes: boolean = false
 ) => {
-  const exports = files
-    .filter(file => {
-      const isIndexFile = file === path.basename(indexFile)
+  const exports = items
+    .filter(item => {
+      const isIndexFile = item === path.basename(indexFile)
+
+      // Check if the item is a directory and if it should be excluded
+      if (isDirectory(watchPath, item))
+        return !config.excludeDirectories.includes(item)
       const isExcludedFileType = config.excludeFileTypes.includes(
-        getExtFromFilename(path.basename(file))
+        getExtFromFilename(path.basename(item))
       )
       if (checkValidTypes) {
         const isValidFileType =
           config.watchFileType === '*' ||
-          file.endsWith(`.${config.watchFileType}`)
+          item.endsWith(`.${config.watchFileType}`)
         return !isIndexFile && isValidFileType && !isExcludedFileType
       }
       return !isIndexFile && !isExcludedFileType
