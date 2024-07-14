@@ -4,7 +4,7 @@
 
 ### Added
 
-- Improved updateIndexFile function to include directories in the export statements.
+- Improved `updateIndexFile` function to include directories in the export statements.
 - Added support for excluding specific directories based on the `config.excludeDirectories` setting.
 
 ### Fixed
